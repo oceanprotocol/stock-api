@@ -6,7 +6,7 @@ ENV NPM_CONFIG_PREFIX=/home/node/.npm-global \
 
 WORKDIR /usr/src/app
 COPY package*.json ./
-RUN npm install -g
+RUN npm install
 
 COPY . .
 
