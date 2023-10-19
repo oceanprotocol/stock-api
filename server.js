@@ -2,73 +2,60 @@ const express = require('express')
 
 const app = express();
 const port = process.env.PORT;
+const apiKey = process.env.API_KEY;
 
-let cachedApiResponse = null;
-let lastCacheTime = new Date();
-let triesNo = 0;
-
-function getFormattedDate() {
-    const today = new Date();
-    const month = String(today.getMonth() + 1).padStart(2, '0');
-    const day = String(today.getDate()).padStart(2, '0');
-    const year = today.getFullYear();
-
-  return `${year}-${month}-${day}`;
-
-}
-
-app.get('/', (req, res) => {
-  res.send('Hello World!');
-})
-
-app.get('/stock', (req, res) => {
-    const now = new Date();
-    console.log("now: ", now);
-
-    if (triesNo === 1 && now.getDate() === lastCacheTime.getDate() + 1) {
-        triesNo -= 1;
-    }
-
-    if (triesNo === 0 && now.getDate() === lastCacheTime.getDate()) {
-        const formattedDate = getFormattedDate();
-        console.log("formattedDate: ", formattedDate);
-        console.log('API KEY: ', process.env.API_KEY);
-        const stockApiUrl = `https://api.polygon.io/v2/aggs/grouped/locale/us/market/stocks/${formattedDate}?adjusted=true`;
-        console.log("formattedDate: ", formattedDate);
-        fetch(stockApiUrl, {
-            headers: {
-                'Authorization': `Bearer ${process.env.API_KEY}`,
-                'Content-Type': 'application/json',
-                'Origin': '',
-              }
-        })
-        .then((response) => {
-            if (response.ok) {
-                console.log("response ok", response)
-                return response.json();
-            } else {
-                console.error('Error fetching the request:', response.status, response.statusText);
-                return null;
-            }
-        })
-        .then((data) => {
-            if (data !== null) {
-                console.log("data: ", data)
-                triesNo += 1;
-                lastCacheTime = now;
-                cachedApiResponse = data;
-                res.send(data);
-            }
-        });
-    } else {
-        res.send(cachedApiResponse);
-    }
-    
-})
+let cachedResponse = null;
+let lastCachedTime = null;
   
-  app.get('/', (req, res) => {
-    res.send('Express server is running.');
+const cacheStockData = async () => {
+    try {
+      const now = new Date();
+  
+      if (!cachedResponse || !lastCachedTime || now.getDate() !== lastCachedTime.getDate()) {
+        const yesterday = new Date(now);
+        yesterday.setDate(now.getDate() - 1);
+        console.log('yesterday: ', yesterday);
+  
+        const formattedDate = getFormattedDate(yesterday);
+  
+        const response = await fetch(`https://api.polygon.io/v2/aggs/grouped/locale/us/market/stocks/${formattedDate}?adjusted=true`, {
+          headers: {
+            'Authorization': `Bearer ${apiKey}`,
+            'Content-Type': 'application/json',
+            'Origin': '*',
+          }
+        });
+  
+        if (response.ok) {
+          cachedResponse = await response.json();
+          lastCachedTime = now;
+        } else {
+          console.error('Error fetching the request:', response.status, response.statusText);
+        }
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  
+  const getFormattedDate = (date) => {
+    return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
+  };
+  
+  app.get('/stock', (req, res) => {
+    cacheStockData();
+  
+    if (cachedResponse) {
+        console.log('The reponse was cached.');
+      res.json(cachedResponse);
+    } else {
+      res.sendStatus(500);
+    }
   });
+
+  app.get('/', (req, res) => {
+    res.send('Hello World!');
+  })
   
   app.listen(port, () => {
     console.log(`Express server is running on port ${port}`);
