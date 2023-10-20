@@ -15,4 +15,4 @@ ENV API_KEY=''
 
 EXPOSE 3000
 
-ENTRYPOINT ['node', '--input-type=module', 'server.js']
+CMD ['node', '--input-type=module', 'server.js']
