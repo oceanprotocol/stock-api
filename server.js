@@ -42,7 +42,7 @@ const cacheStockData = async () => {
     return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
   };
   
-  app.get('/stock', (req, res) => {
+  app.get('/stock.json', (req, res) => {
     cacheStockData();
   
     if (cachedResponse) {
