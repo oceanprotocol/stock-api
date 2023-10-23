@@ -22,6 +22,58 @@ export API_KEY='<YOUR_SECRET_API_KEY>'
 node --input-type=module server.js
 ```
 
+## 🌐 Endpoints
+
+### GET /stock/stock.json
+
+Returns:
+JSON object containing the stock market data from the previous date
+
+Example:
+
+```
+GET https://stock-api.oceanprotocol.com/stock/stock.json
+
+```
+
+Response:
+
+```json
+{
+  {
+    "queryCount": 10953,
+    "resultsCount": 10953,
+    "adjusted": true,
+    "results": [
+        {
+            "T": "TTMI",
+            "v": 394280,
+            "vw": 16.1078,
+            "o": 15.96,
+            "c": 16.08,
+            "h": 16.335,
+            "l": 15.96,
+            "t": 1673298000000,
+            "n": 5416
+        },
+        {
+            "T": "OEC",
+            "v": 485157,
+            "vw": 19.0627,
+            "o": 18.67,
+            "c": 18.98,
+            "h": 19.43,
+            "l": 18.45,
+            "t": 1673298000000,
+            "n": 8130
+        },
+        .
+        .
+        .
+    ]
+}
+```
+
 ## 🏛 License
 
 ```
