@@ -1,7 +1,9 @@
 [![banner](https://raw.githubusercontent.com/oceanprotocol/art/master/github/repo-banner%402x.png)](https://oceanprotocol.com)
 
 <h1 align="center">Stock API</h1>
-Express.js server which retrieves stock data from previous date using ([Polygon Stock API](https://polygon.io/stocks?utm_term=stock%20api&utm_campaign=Stocks+-+INT&utm_source=adwords&utm_medium=ppc&hsa_acc=4299129556&hsa_cam=13075782420&hsa_grp=133850772646&hsa_ad=592165834550&hsa_src=g&hsa_tgt=aud-1929552685191:kwd-301178080709&hsa_kw=stock%20api&hsa_mt=p&hsa_net=adwords&hsa_ver=3&gad=1&gclid=CjwKCAjws9ipBhB1EiwAccEi1EuLNm8g97sENb2nbZxGFuFK5gV5B47W8_2CotF6Wxcy7HY7hgbzBhoCFu8QAvD_BwE)).
+Express.js server which retrieves stock data from previous date using 
+
+([Polygon Stock API](https://polygon.io/stocks?utm_term=stock%20api&utm_campaign=Stocks+-+INT&utm_source=adwords&utm_medium=ppc&hsa_acc=4299129556&hsa_cam=13075782420&hsa_grp=133850772646&hsa_ad=592165834550&hsa_src=g&hsa_tgt=aud-1929552685191:kwd-301178080709&hsa_kw=stock%20api&hsa_mt=p&hsa_net=adwords&hsa_ver=3&gad=1&gclid=CjwKCAjws9ipBhB1EiwAccEi1EuLNm8g97sENb2nbZxGFuFK5gV5B47W8_2CotF6Wxcy7HY7hgbzBhoCFu8QAvD_BwE)).
 
 ## 📚 Prerequisites
 
