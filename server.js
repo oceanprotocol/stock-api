@@ -65,7 +65,9 @@ const cacheStockData = async () => {
       res.set('Content-Disposition', `attachment; filename="${filename}"`);
       res.json(cachedResponse);
     } else {
-      res.send({message: "There is not finance data.", status: 500});
+      res.status(500).send({
+        message: 'Stock data is not cached.'
+     });
     }
   });
 
